@@ -40,10 +40,11 @@ def load(*args):                                                                
     periodo.set(lista1)
     return lista1
 
-def configuracion2(event):                                                      #Updates scrollregion of outputframe
+def configuracion(event):                                                      #Updates scrollregion of outputframe
     outcanvas.configure(scrollregion=outcanvas.bbox("all"))
 
-def cargarlista(*args):                                                         #Loads/displays selected list into outputframe
+def cargarlista(*args):                                                        #Loads/displays selected list into outputframe
+    lista.clear()
     lista2=[]
     labeltext=""
     for i in menu.curselection():
@@ -140,7 +141,7 @@ ttk.Button(listboxbuttons, text='Load list', command=cargarlista).pack(side=LEFT
 #-----------------------------------------------   Bindings
 mainentry.focus()
 root.bind('<Return>', agregar)
-outputframe.bind('<Configure>', configuracion2)
+outputframe.bind('<Configure>', configuracion)
 #=====================================
 #---------END-------------
 root.mainloop()
