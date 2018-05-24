@@ -2,10 +2,9 @@ from tkinter import *
 from tkinter import ttk
 import glob
 import os
-#import re
 
 #-----------------------------------------------------    Functions def
-def center(root):
+def center(root):                                                               #To Center root Window
     root.update_idletasks()
     w = root.winfo_screenwidth()
     h = root.winfo_screenheight()
@@ -14,8 +13,7 @@ def center(root):
     y = h/2 - size[1]/2
     root.geometry("%dx%d+%d+%d" % (size + (x, y)))
 
-def agregar(*args):
-    #if re.search('[a-zA-Z]', nuevoitem.get()):
+def agregar(*args):                                                             #Adds input to list variable and displays it in output label
     if nuevoitem.get().strip(): 
         lista.append(nuevoitem.get())
         agregado.set('Tu lista contiene: ' + str(len(lista)) + " items")
@@ -28,30 +26,38 @@ def agregar(*args):
     listalabel.set(labeltext)
     return lista
 
-def presstoclear(*args):
+def presstoclear(*args):                                                        #Clears list, entry widget and labels
     lista.clear()
     agregado.set('')
     mainentry.delete(0, END)
     listalabel.set("")
 
-def load():
-    a=[]
-    i=0
+def load(*args):                                                                #displays in listbox the existen lists
     archivos = glob.glob("D:/python_projects/tkintergui/listas/*.txt")
     for archivo in archivos:
-        i+=1
         remplazo = archivo.replace("D:/python_projects/tkintergui/listas\\", "")
-        a.append("{}. ".format(i) + remplazo.replace(".txt", ""))
-    loads.set("Listas disponibles:\n" + "\n".join(a))
+        lista1.append(remplazo.replace(".txt", ""))
+    periodo.set(lista1)
+    return lista1
 
-def configuracion(event):
-    canvas.configure(scrollregion=canvas.bbox("all"),width=200,height=200)
+def configuracion2(event):                                                      #Updates scrollregion of outputframe
+    outcanvas.configure(scrollregion=outcanvas.bbox("all"))
 
-def configuracion2(event):
-    outcanvas.configure(scrollregion=outcanvas.bbox("all"),height=1000)
-
-def clearlist():
-    loads.set("")
+def cargarlista(*args):                                                         #Loads/displays selected list into outputframe
+    lista2=[]
+    labeltext=""
+    for i in menu.curselection():
+        with open('D:/python_projects/tkintergui/listas/' + lista1[i] + '.txt', 'r') as listaload:
+            listacargada = listaload.readlines()
+            for item in listacargada:                           
+                lista2.append(item.replace("\n",""))
+    for item in lista2:
+        i+=1
+        lista.append(item)
+        labeltext += "{}. ".format(i) + item + "\n"
+    listalabel.set(labeltext)
+    return labeltext, lista
+    
 #============================================
 #-------------------------------------------------  Main Window    
 root= Tk()
@@ -64,13 +70,14 @@ center(root)
 lista = []
 nuevoitem = StringVar()
 listalabel = StringVar()
-listalabel2=StringVar()
 agregado = StringVar()
-loads = StringVar()
+periodo=StringVar()
+lista1=[]
+labeltext=""
 #=======================================
 #---------------------------------------------------- Styles
 stilo=ttk.Style()
-stilo.configure("My.TLabel",  background='turquoise', foreground='black')
+stilo.configure("My.TLabel",  background='lightskyblue1', foreground='black')
 #======================================
 #---------------------------------------------------  Frames
 mainframe = ttk.Frame(root, relief='sunken')
@@ -91,21 +98,18 @@ buttonframe.grid(column=1, row=4)
 loadsframe =ttk.Frame(leftframe)
 loadsframe.grid(column=1, row=7)
 
-loadbuttons=ttk.Frame(leftframe)
-loadbuttons.grid(column=1, row=8)
+listboxbuttons=ttk.Frame(leftframe)
+listboxbuttons.grid(column=1, row=8)
 
 #================================================
-#--------------------------------------------------   Load Canvas
+#--------------------------------------------------   ListBox
 scrollbar=Scrollbar(loadsframe)
 scrollbar.pack(side=RIGHT, fill=Y)
 
-canvas=Canvas(loadsframe, yscrollcommand=scrollbar.set,scrollregion=(0,0,500,500), background='turquoise')
-canvas.pack(side=LEFT, fill=BOTH, expand=1, padx=5)
+menu = Listbox(loadsframe, listvariable=periodo, background='turquoise', foreground='black', yscrollcommand=scrollbar.set, width=34)
+menu.pack(padx=(5,0),pady=8, expand=1, fill=BOTH)
 
-elframe=ttk.Frame(canvas)
-canvas.create_window((0,0),window=elframe,anchor=NW)
-
-scrollbar.config(command=canvas.yview)
+scrollbar.config(command=menu.yview)
 #================================================
 #--------------------------------------------------- Output Canvas
 scroll=Scrollbar(rightframe)
@@ -126,20 +130,16 @@ mainentry = ttk.Entry(inputframe, textvariable=nuevoitem)
 mainentry.pack(padx=5, pady=5)
 ttk.Label(inputframe,textvariable=agregado).pack(padx=5, pady=5)
 
-cargadito= ttk.Label(elframe, textvariable=loads, width=31, style="My.TLabel" )
-cargadito.pack(expand=1, fill=Y)
-
 ttk.Label(outputframe, textvariable=listalabel, wraplength=400,width=46, relief='raised', font=("Courier", 14), style='My.TLabel').pack(expand=1, fill=Y,pady=5,padx=5, side=LEFT)
 
 ttk.Button(buttonframe, text="Press to Clear", command=presstoclear).pack(expand=1, fill=X, pady=5, padx=5)
 
-ttk.Button(loadbuttons, text="Saved Lists", command=load).pack(side=LEFT,expand=1, fill=X, pady=5)
-ttk.Button(loadbuttons, text='Clear lists', command=clearlist).pack(side=LEFT, expand=1, fill=X, pady=5, padx=5)
+ttk.Button(listboxbuttons, text="Saved Lists", command=load).pack(side=LEFT,expand=1, fill=X, pady=5)
+ttk.Button(listboxbuttons, text='Load list', command=cargarlista).pack(side=LEFT, expand=1, fill=X, pady=5, padx=5)
 #======================================
 #-----------------------------------------------   Bindings
 mainentry.focus()
 root.bind('<Return>', agregar)
-elframe.bind('<Configure>', configuracion)
 outputframe.bind('<Configure>', configuracion2)
 #=====================================
 #---------END-------------
