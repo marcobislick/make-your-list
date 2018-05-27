@@ -159,16 +159,25 @@ def save_list(*args):
     listname = listsavename.get()
     if listname.strip():
         if selection == 'custom':
-            try:
-                with open(path + listname + '.txt', 'w') as savefile:
-                    for item in original_list:
-                        savefile.write(item + '\n')
-                savelabel.set('Tu lista se ha guardado exitosamente')
-            except:
-                savelabel.set('Parece que has ingresado un nombre o direccion no valido.')
+            if path[len(path)-1] == "/":
+                try:
+                    with open(path + "/" + listname + '.txt', 'w') as savefile:
+                        for item in original_list:
+                            savefile.write(item + '\n')
+                    savelabel.set('Tu lista se ha guardado exitosamente')
+                except:
+                    savelabel.set('Parece que has ingresado un nombre o direccion no valido.')
+            else:
+                try:
+                    with open(path + "/" + listname + '.txt', 'w') as savefile:
+                        for item in original_list:
+                            savefile.write(item + '\n')
+                    savelabel.set('Tu lista se ha guardado exitosamente')
+                except:
+                    savelabel.set('Parece que has ingresado un nombre o direccion no valido.')
         elif selection == 'default':
             try:
-                with open('d:/python_projects/listacompra/' + listname + '.txt', 'w') as savefile:
+                with open(dir_path + "/" + listname + '.txt', 'w') as savefile:
                     for item in original_list:
                         savefile.write(item + '\n')
                 savelabel.set('Tu lista se ha guardado exitosamente')
@@ -182,7 +191,7 @@ def save_list(*args):
 
 def radioevent1(*args):
     "radiobutton1 click event"
-    savepath.set('D:/python_projects/listacompra/')
+    savepath.set(dir_path)
     savepathentry.configure(state='readonly')
     print(radioevent1.__doc__)
 
