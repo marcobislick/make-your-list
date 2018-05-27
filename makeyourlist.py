@@ -193,7 +193,6 @@ def radioevent1(*args):
     "radiobutton1 click event"
     savepath.set(dir_path)
     savepathentry.configure(state='readonly')
-    print(radioevent1.__doc__)
 
 def radioevent2(*args):
     "radiobutton1 click event"
