@@ -341,7 +341,7 @@ scroll.config(command=outmenu.yview)
 ttk.Label(inputframe, text="Ingresa un item y presiona 'enter'").pack()
 mainentry = ttk.Entry(inputframe, textvariable=nuevoitem)
 mainentry.pack(padx=5, pady=(5,0))
-Label(inputframe,textvariable=agregado, wraplength=221, justify=CENTER, height=3).pack(padx=5, pady=6, expand=1, fill=BOTH)
+Label(inputframe,textvariable=agregado, wraplength=218, justify=CENTER, height=3).pack(padx=5, pady=6, expand=1, fill=BOTH)
 
 #===================================================
 #---------------------------------------------------    Widgets inside buttonframe
