@@ -7,7 +7,7 @@ import os
 #===================================================
 #---------------------------------------------------    Functions definition
 def center(root):
-    "To Center root Window"
+    """To Center root Window"""
     root.update_idletasks()
     w = root.winfo_screenwidth()
     h = root.winfo_screenheight()
@@ -17,7 +17,7 @@ def center(root):
     root.geometry("%dx%d+%d+%d" % (size + (x, y)))
 
 def agregar(*args):
-    "Adds input to list variable and displays it in output label"
+    """Adds input to list variable and displays it in output label"""
     if nuevoitem.get().strip():
         original_list.append(nuevoitem.get())
         sortedlist.append(nuevoitem.get())
@@ -28,7 +28,7 @@ def agregar(*args):
     return display_list, original_list, sortedlist
 
 def presstoclear(*args):
-    "Clears list, entry widget and labels"
+    """Clears list, entry widget and labels"""
     display_list.clear()
     original_list.clear()
     sortedlist.clear()
@@ -37,7 +37,7 @@ def presstoclear(*args):
     listalabel.set("")
 
 def load(*args):
-    "displays in listbox the existen lists"
+    """displays in listbox the existen lists"""
     loadedfiles.clear()
     global pathvar
     pathvar = load_entry_path.get()
@@ -71,7 +71,7 @@ def load(*args):
     return pathvar, loadedfiles
 
 def loadlistfile(*args):
-    "Loads/displays selected list into outputframe"
+    """Loads/displays selected list into outputframe"""
     i=0
     if load_radiobutton.get() == 'default':
         try:
@@ -120,7 +120,7 @@ def loadlistfile(*args):
     return display_list, original_list, sortedlist
 
 def removeitem(*args):
-    "Deletes Selected List item"
+    """Deletes Selected List item"""
     i=0
     if original_list != sortedlist:
         display_list.clear()
@@ -142,7 +142,7 @@ def removeitem(*args):
     return original_list, display_list, sortedlist
 
 def sortear(*args):
-    "Sorts lists"
+    """Sorts lists"""
     display_list.clear()
     sortedlist.sort()
     i=0
@@ -153,7 +153,7 @@ def sortear(*args):
     return display_list, sortedlist
 
 def save_list(*args):
-    "Saves list in path as name"
+    """Saves list in path as name"""
     selection = pathselection.get()
     path = savepath.get()
     listname = listsavename.get()
@@ -190,27 +190,27 @@ def save_list(*args):
 
 
 def radioevent1(*args):
-    "radiobutton1 click event"
+    """radiobutton1 click event"""
     savepath.set(dir_path)
     savepathentry.configure(state='readonly')
 
 def radioevent2(*args):
-    "radiobutton1 click event"
+    """radiobutton1 click event"""
     savepath.set('D:/')
     savepathentry.configure(state='normal')
 
 def defaultpath(*args):
-    "Defaultpath radiobutton click event"
+    """Defaultpath radiobutton click event"""
     load_entry_path.set(dir_path)
     loadpathentry.configure(state='readonly')
 
 def custompath(*args):
-    "Custompath radiobutton click event"
+    """Custompath radiobutton click event"""
     load_entry_path.set('D:/')
     loadpathentry.configure(state='normal')
 
 def deletefile(*args):
-    "Deletes selected file from system"
+    """Deletes selected file from system"""
     selectedfile=loadedfiles[menu.curselection()[0]]
     if pathvar == dir_path:
         try:
